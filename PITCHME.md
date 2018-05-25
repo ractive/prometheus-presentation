@@ -101,7 +101,7 @@ TODO: Explain Histogram buckets
 
 +++
 
-## The Four Golden signals
+### The Four Golden signals
 ##### Latency, Traffic, Errors, Saturation
 
 <span style="font-size:0.6em;">https://landing.google.com/sre/book/chapters/monitoring-distributed-systems.html</span>
@@ -110,17 +110,17 @@ TODO: Explain Histogram buckets
 
 ### Latency
 ##### The time it takes to service a request.
-##### Distinguis between GET and POST and successful and failed requests
+##### Distinguish between GET and POST and successful and failed requests
 
 +++
 
 ### Traffic
-##### HTTP requests per second
+###### HTTP requests per second
 
 +++
 
 ### Error
-##### The rate of requests that fail (500s)
+The rate of requests that fail (500s)
 
 +++
 
