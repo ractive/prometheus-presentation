@@ -61,35 +61,37 @@ Prometheus collects the state and not single events (like the count of http requ
 ---
 
 ## Metric Types
-- Counter
-- Gauge
-- Histogram
-- Summary
+
++++
+
+##### Counter
+##### Gauge
+##### Histogram
+##### Summary
 
 +++
 
 ### Counter
 
-##### a single numerical value that only ever goes up
-##### Counter resets are handled by the server
+A single numerical value that only ever goes up
 
 +++
 
 ### Gauge
 
-##### a single numerical value that can arbitrarily go up and down.
+A single numerical value that can arbitrarily go up and down.
 
 +++
 
 ### Histogram
 
-##### samples observations (usually things like request durations or response sizes) and counts them in configurable buckets
+Samples observations (usually things like request durations or response sizes) and counts them in configurable buckets
 
 +++
 
 ### Summary
 
-##### summaries calculate streaming φ-quantiles on the client side
+Summaries calculate streaming φ-quantiles on the client side
 
 +++
 
@@ -102,20 +104,22 @@ TODO: Explain Histogram buckets
 +++
 
 ### The Four Golden signals
-##### Latency, Traffic, Errors, Saturation
-
+Latency, Traffic, Errors, Saturation
+<br>
+<br>
 <span style="font-size:0.6em;">https://landing.google.com/sre/book/chapters/monitoring-distributed-systems.html</span>
 
 +++
 
 ### Latency
-##### The time it takes to service a request.
-##### Distinguish between GET and POST and successful and failed requests
+The time it takes to service a request.
+<br>
+<br>
+Distinguish between GET and POST and successful and failed requests
 
 +++
 
-### Traffic
-###### HTTP requests per second
+HTTP requests per second
 
 +++
 
@@ -125,4 +129,4 @@ The rate of requests that fail (500s)
 +++
 
 ### Saturation
-##### How "full" your service is.
+How "full" your service is.
