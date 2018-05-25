@@ -37,8 +37,7 @@ https://prometheus.io
 Stream of samples of the same metric and the same set of labels
 
 #### Sample
-- a float64 value
-- a millisecond-precision timestamp
+[a float64 value, a millisecond-precision timestamp]
 
 +++
 
@@ -56,7 +55,7 @@ Pulling metrics via HTTP (aka scraping)
 +++
 
 #### Events vs. state
-Prometheus collects the state and not single events (like the count of http requests and not the single requests).
+Prometheus collects the *state* and *not single events* (like the count of http requests and not the single requests).
 
 ---
 
@@ -115,18 +114,58 @@ Latency, Traffic, Errors, Saturation
 The time it takes to service a request.
 <br>
 <br>
-Distinguish between GET and POST and successful and failed requests
+Distinguish between GET vs. POST and successful vs. failed requests.
 
 +++
 
+### Traffic
 HTTP requests per second
 
 +++
 
 ### Error
-The rate of requests that fail (500s)
+The *ratio* of requests that fail (500s)
 
 +++
 
 ### Saturation
 How "full" your service is.
+
+---
+
+## Timeseries
+
++++
+
+### Metric Naming 
+
+`<namespace>_<subsystem>_my_metric_name_<unit>`<br>
+<br>
+`backend_http_requests_total` (with `backend` as namespace)<br>
+`backend_auth_authentication_success_total` (with `backend` as namespace and `auth` as subsystem)
+
++++
+
+Use base units (seconds, not milliseconds)
+<br>
+<br>
+Add a suffix describing the unit
+`backend_http_response_time_seconds`<br>
+`backend_http_requests_total`<br>
+`process_cpu_seconds_total`<br>
+
+<span style="font-size:0.6em;">https://prometheus.io/docs/practices/naming/</span>
+
++++
+
+### Labels
+
+Differentiate the characteristics of the thing that is being measured<br>
+<br>
+`backend_http_requests_total{method="GET", path="/users", app="user-service"}`<br>
+`backend_auth_users_activated_total{platform="Android"}`<br>
+<br>
+<span style="color: red">Remember that every unique combination of key-value label pairs represents a new time series</span>
+
+
+
