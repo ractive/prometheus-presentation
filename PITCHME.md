@@ -43,7 +43,9 @@ Stream of samples of the same metric and the same set of labels
 
 ### Scraping (Pulling)
 
-Pulling metrics via HTTP (aka scraping)
+Pulling metrics via HTTP from /metrics
+
++++
 
 #### Why Pull?
 - Simple client implementation
