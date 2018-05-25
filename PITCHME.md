@@ -169,5 +169,38 @@ Differentiate the characteristics of the thing that is being measured<br>
 <br>
 <span style="color: red">Remember that every unique combination of key-value label pairs represents a new time series</span>
 
+---
 
+## PromQL
 
++++
+
+#### Instant vector
+`backend_http_requests_total`<br> -> a single sample value at a given timestamp (instant)
+`backend_http_requests_total{app="auth-service"}`
+
+|Element | Value |
+|--------|-------|
+|backend_http_requests_total{app="auth-service", instance="10.0.0.1"} | 100 |
+|backend_http_requests_total{app="auth-service", instance="10.0.0.2"} | 200 |
+
++++
+
+#### Range vector
+`backend_http_requests_total{app="auth-service"}[1m]` -> range of samples
+
+|Element | Value |
+|--------|-------|
+|backend_http_requests_total{app="auth-service", instance="10.0.0.1"} | 10 @ 1527286717.149<br>12 @ 1527286733.149<br>13 @ 1527286749.149<br>20 @ 1527286765.149 |
+|backend_http_requests_total{app="auth-service", instance="10.0.0.2"} | 2 @1527286711.47<br>5 @1527286727.47<br>9 @1527286743.47<br> |
+
++++
+
+rate()
+irate()
+
++++
+
+sum() by () / fan out
+
+sum() without ()
