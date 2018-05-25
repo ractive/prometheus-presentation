@@ -179,8 +179,12 @@ Differentiate the characteristics of the thing that is being measured<br>
 +++
 
 #### Instant vector
-`backend_http_requests_total`<br> -> a single sample value at a given timestamp (instant)
+A single sample value at a given timestamp (instant)<br>
+<br>
+`backend_http_requests_total`<br>
 `backend_http_requests_total{app="auth-service"}`
+
++++
 
 |Element | Value |
 |--------|-------|
@@ -190,7 +194,11 @@ Differentiate the characteristics of the thing that is being measured<br>
 +++
 
 #### Range vector
-`backend_http_requests_total{app="auth-service"}[1m]` -> range of samples
+Samples in a given timerange<br>
+<br>
+`backend_http_requests_total{app="auth-service"}[1m]`
+
++++
 
 |Element | Value |
 |--------|-------|
