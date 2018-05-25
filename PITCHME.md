@@ -143,8 +143,11 @@ How "full" your service is.
 
 `<namespace>_<subsystem>_my_metric_name_<unit>`<br>
 <br>
-`backend_http_requests_total` (with `backend` as namespace)<br>
-`backend_auth_authentication_success_total` (with `backend` as namespace and `auth` as subsystem)
+`backend_http_requests_total`<br>
+<span style="font-size:0.6em;">(with `backend` as namespace)</span><br>
+<br>
+`backend_auth_authentication_success_total`<br>
+<span style="font-size:0.6em;">(with `backend` as namespace and `auth` as subsystem)</span>
 
 +++
 
