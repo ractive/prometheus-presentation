@@ -22,7 +22,7 @@ https://prometheus.io
 
 #### Scalability
 
-> To put some numbers behind this: a single big Prometheus server can easily store millions of time series, with a record of 800,000 incoming samples per second (as measured with real production metrics data at SoundCloud). Given a 10-seconds scrape interval and 700 time series per host, this allows you to monitor over 10,000 machines from a single Prometheus server.
+> a single big Prometheus server can easily store millions of time series, with a record of 800,000 incoming samples per second [...]. Given a 10-seconds scrape interval and 700 time series per host, this allows you to monitor over 10,000 machines from a single Prometheus server.
 
 https://prometheus.io/blog/2016/07/23/pull-does-not-scale-or-does-it/#it-doesn-t-matter-who-initiates-the-connection
 
