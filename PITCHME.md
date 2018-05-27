@@ -184,12 +184,14 @@ Samples in a given timerange<br>
 
 +++
 ##### range()
-`rate(v range-vector)`: Per second increase of the given range vector (*of a counter!*)<br>
+`rate(v range-vector)`:<br>
+Per second increase of the given range vector (*of a counter!*)<br>
 <br>
 e.g. `rate(backend_http_requests_total{app="storage-service"}[5m])`
 +++
 ##### sum()
-`sum(v instance-vector)`: calculate sum over dimensions/labels<br>
+`sum(v instance-vector)`:<br>
+calculate sum over dimensions/labels<br>
 
 +++
 ##### sum() by()
@@ -205,8 +207,6 @@ e.g. `rate(backend_http_requests_total{app="storage-service"}[5m])`
 
 ##### sum() without()
 
-`sum(v instance-vector)`: calculate sum over dimensions/labels<br>
-<br>
 `sum(backend_http_requests_total{app="my-service"}) without (instance)`:
 
 |Element | Value |
@@ -260,9 +260,9 @@ We use a histrogram with the labels:<br>
 `backend_http_response_time_seconds`
 
 ```
-sum(rate( backend_http_response_time_seconds_sum{app="storage-service"}[$interval]))
+sum(rate(backend_http_response_time_seconds_sum{app="storage-service"}[1m]))
 /
-sum(rate( backend_http_response_time_seconds_count{app="storage-service"}[$interval]))
+sum(rate(backend_http_response_time_seconds_count{app="storage-service"}[1m]))
 ```
 
 +++
@@ -274,7 +274,7 @@ We use a histrogram with the labels:<br>
 `backend_http_requests_total`
 
 ```
-sum(rate(backend_http_requests_total{app="storage-service"}[$interval]))
+sum(rate(backend_http_requests_total{app="storage-service"}[1m]))
 ```
 
 +++
@@ -283,7 +283,7 @@ sum(rate(backend_http_requests_total{app="storage-service"}[$interval]))
 The *ratio* of requests that fail (500s)
 
 ```
-sum(rate(backend_http_requests_total{{app="storage-service", status=~"^5[0-9][0-9]$"} [$interval]))
+sum(rate(backend_http_requests_total{{app="storage-service", status=~"^5[0-9][0-9]$"}[1m]))
 /
 sum(rate(backend_http_requests_total{app="storage-service"}[$interval]))
 ```
