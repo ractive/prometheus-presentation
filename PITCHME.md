@@ -1,4 +1,4 @@
-# Prometheus @backend
+# Prometheus @Backend
 
 ---
 
@@ -285,7 +285,15 @@ sum(rate(backend_http_requests_total{app="storage-service"}[1m]))
 The *ratio* of requests that fail (500s)
 
 ```
-sum(rate(backend_http_requests_total{{app="storage-service", status=~"^5[0-9][0-9]$"}[1m]))
+sum(rate(backend_http_requests_total{app="storage-service", status=~"^5[0-9][0-9]$"}[1m]))
 /
 sum(rate(backend_http_requests_total{app="storage-service"}[$interval]))
 ```
+
+---
+
+## Grafana
+
++++
+### Grafana Settings
+![Grafana settings](https://files.slack.com/files-pri/T02STLL2E-FACS1C5QB/image.png)
