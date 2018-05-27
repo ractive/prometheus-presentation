@@ -149,7 +149,7 @@ Samples observations (usually things like request durations or response sizes) a
 Summaries calculate streaming φ-quantiles on the client side
 
 +++
-### Histogram details
+##### Histogram details
 <span style="font-size:0.6em;">
 A histogram called `backend_http_response_time_seconds` with the buckets `0.01, 0.02, 0.04, 0.1, 0.2, 0.4, 1, 5` will be represented as:<br>
 `backend_http_response_time_seconds_bucket{..., le="0.01"}`<br>
@@ -161,6 +161,9 @@ A histogram called `backend_http_response_time_seconds` with the buckets `0.01, 
 `backend_http_response_time_seconds_count{...}`<br>
 `backend_http_response_time_seconds_sum{...}`<br>
 </span>
+
++++
+### Client libraries
 
 ---
 
@@ -241,7 +244,7 @@ calculate sum over dimensions/labels<br>
 
 +++
 
-### The Four Golden signals
+### The Four Golden Signals
 Latency, Traffic, Errors, Saturation
 <br>
 <br>
@@ -273,7 +276,7 @@ How "full" your service is.
 +++
 
 ### Latency example
-We use a histrogram with the labels:<br>
+We use a histogram that fans out with:<br>
 `method`, `path`:<br>
 <br>
 `backend_http_response_time_seconds`
@@ -286,8 +289,15 @@ sum(rate(backend_http_response_time_seconds_count{app="storage-service"}[1m]))
 
 +++
 
+#### Normalize the path label!
+`/users/1a2b3c` @fa[arrow-right] `/users/{id}`<br>
+<br>
+`/typo3/vulnerable.php` @fa[arrow-right] `{other}`<br>
+
++++
+
 ### Traffic example
-We use a histrogram with the labels:<br>
+We use a counter that fans out with:<br>
 `method`, `path`, `status`:<br>
 <br>
 `backend_http_requests_total`
