@@ -43,7 +43,9 @@ Stream of samples of the same metric and the same set of labels
 
 ### Scraping (Pulling)
 
-Pulling metrics via HTTP from /metrics
+Pulling metrics via HTTP from /metrics<br>
+<br>
+...every 16s
 
 +++
 
@@ -58,6 +60,53 @@ Pulling metrics via HTTP from /metrics
 
 #### Events vs. state
 Prometheus collects the *state* and *not single events* (like the count of http requests and not the single requests).
+
+---
+
+## Timeseries
+
++++
+
+### Metric Naming 
+
+`<namespace>_<subsystem>_my_metric_name_<unit>`<br>
+<br>
+`backend_http_requests_total`<br>
+<span style="font-size:0.6em;">(with `backend` as namespace)</span><br>
+<br>
+`backend_auth_authentication_success_total`<br>
+<span style="font-size:0.6em;">(with `backend` as namespace and `auth` as subsystem)</span>
+
++++
+
+##### Use base units (seconds, not milliseconds)
+Add a suffix describing the unit<br>
+<br>
+`backend_http_response_time_seconds`<br>
+`backend_http_requests_total`<br>
+`process_cpu_seconds_total`<br>
+
+<span style="font-size:0.6em;">https://prometheus.io/docs/practices/naming/</span>
+
++++
+
+### Labels
+
+Labels makes the timeseries multidimensional<br>
+<span style="font-size: 0.6em">
+`backend_auth_users_activated_total{platform="Android"}`<br>
+`backend_http_requests_total{method="GET", path="/users", app="user-service"}`
+</span>
+
+> backend_http_requests_total *fans out* by method, path and app
+
+<span style="color: maroon">Remember that every unique combination of key-value label pairs represents a new time series</span>
+
++++
+
+### Auto labels
+Some labels are added automatically like<br>
+`app`, `instance`, `kubernetes_namespace`, `job` etc.
 
 ---
 
@@ -95,55 +144,18 @@ Samples observations (usually things like request durations or response sizes) a
 Summaries calculate streaming φ-quantiles on the client side
 
 +++
-
-TODO: Explain Histogram buckets
-
----
-
-## Timeseries
-
-+++
-
-### Metric Naming 
-
-`<namespace>_<subsystem>_my_metric_name_<unit>`<br>
+### Histogram details
+A histogram called `backend_http_response_time_seconds` with the buckets `0.01, 0.02, 0.04, 0.1, 0.2, 0.4, 1, 5` will be represented as:
+<span style="font-size:0.6em;">
+`backend_http_response_time_seconds_bucket{..., le="0.01"}`<br>
+`backend_http_response_time_seconds_bucket{..., le="0.02"}`<br>
+...<br>
+`backend_http_response_time_seconds_bucket{..., le="5"}`<br>
+`backend_http_response_time_seconds_bucket{..., le="+Inf"}`<br>
 <br>
-`backend_http_requests_total`<br>
-<span style="font-size:0.6em;">(with `backend` as namespace)</span><br>
-<br>
-`backend_auth_authentication_success_total`<br>
-<span style="font-size:0.6em;">(with `backend` as namespace and `auth` as subsystem)</span>
-
-+++
-
-##### Use base units (seconds, not milliseconds)
-Add a suffix describing the unit<br>
-<br>
-`backend_http_response_time_seconds`<br>
-`backend_http_requests_total`<br>
-`process_cpu_seconds_total`<br>
-
-<span style="font-size:0.6em;">https://prometheus.io/docs/practices/naming/</span>
-
-+++
-
-### Labels
-
-Differentiate the characteristics of the thing that is being measured<br>
-<span style="font-size: 0.6em">
-`backend_auth_users_activated_total{platform="Android"}`<br>
-`backend_http_requests_total{method="GET", path="/users", app="user-service"}`
+`backend_http_response_time_seconds_count{...}`<br>
+`backend_http_response_time_seconds_sum{...}`<br>
 </span>
-
-> backend_http_requests_total *fans out* by method, path and app
-
-<span style="color: maroon">Remember that every unique combination of key-value label pairs represents a new time series</span>
-
-+++
-
-### Auto labels
-Some labels are added automatically like<br>
-`app`, `instance`, `kubernetes_namespace`, `job` etc.
 
 ---
 
