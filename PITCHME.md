@@ -50,11 +50,16 @@ Pulling metrics via HTTP from /metrics<br>
 +++
 
 #### Why Pull?
+
+@ul
+
 - Simple client implementation
 - No client configuration
 - No performance overhead on the client as they only update counters
 - Easy debugging on the client (with your browser)
 - Immediately notice when a target is down
+
+@ulend
 
 +++
 
