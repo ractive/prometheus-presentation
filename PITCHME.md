@@ -117,9 +117,8 @@ TODO: Explain Histogram buckets
 +++
 
 ##### Use base units (seconds, not milliseconds)
+Add a suffix describing the unit<br>
 <br>
-<br>
-Add a suffix describing the unit
 `backend_http_response_time_seconds`<br>
 `backend_http_requests_total`<br>
 `process_cpu_seconds_total`<br>
@@ -132,8 +131,10 @@ Add a suffix describing the unit
 
 Differentiate the characteristics of the thing that is being measured<br>
 <br>
+<span style="font-size: 0.6em">
 `backend_auth_users_activated_total{platform="Android"}`<br>
 `backend_http_requests_total{method="GET", path="/users", app="user-service"}`
+</span>
 
 > backend_http_requests_total *fans out* by method, path and app
 
@@ -154,7 +155,7 @@ Some labels are added automatically like<br>
 #### Instant vector
 A single sample value at a given timestamp (instant)<br>
 <br>
-<span style="font-size: 0.7em">
+<span style="font-size: 0.6em">
 `backend_http_requests_total`<br>
 `backend_http_requests_total{app="auth-service"}`
 </span>
