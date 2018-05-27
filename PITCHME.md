@@ -5,7 +5,7 @@
 ## What is Prometheus?
 
 +++
-
+@title[Prometheus]
 Prometheus is an open-source systems monitoring and alerting toolkit base on purely numeric time series.
 <br>
 <br>
@@ -160,7 +160,7 @@ A single sample value at a given timestamp (instant)<br>
 </span>
 
 +++
-
+@title[Instant vector example]
 |Element | Value |
 |--------|-------|
 |backend_http_requests_total{app="auth-service", instance="10.0.0.1"} | 100 |
@@ -176,7 +176,7 @@ Samples in a given timerange<br>
 </span>
 
 +++
-
+@title[Range vector example]
 |Element | Value |
 |--------|-------|
 |backend_http_requests_total{app="auth-service", instance="10.0.0.1"} | 10 @ 1527286717.149<br>12 @ 1527286733.149<br>13 @ 1527286749.149<br>20 @ 1527286765.149 |
@@ -253,7 +253,7 @@ How "full" your service is.
 
 +++
 
-### Latency
+### Latency example
 We use a histrogram with the labels:<br>
 `method`, `path`:<br>
 <br>
@@ -267,7 +267,7 @@ sum(rate(backend_http_response_time_seconds_count{app="storage-service"}[1m]))
 
 +++
 
-### Traffic
+### Traffic example
 We use a histrogram with the labels:<br>
 `method`, `path`, `status`:<br>
 <br>
@@ -279,7 +279,7 @@ sum(rate(backend_http_requests_total{app="storage-service"}[1m]))
 
 +++
 
-### Error
+### Error example
 The *ratio* of requests that fail (500s)
 
 ```
