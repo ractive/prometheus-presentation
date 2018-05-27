@@ -100,6 +100,112 @@ TODO: Explain Histogram buckets
 
 ---
 
+## Timeseries
+
++++
+
+### Metric Naming 
+
+`<namespace>_<subsystem>_my_metric_name_<unit>`<br>
+<br>
+`backend_http_requests_total`<br>
+<span style="font-size:0.6em;">(with `backend` as namespace)</span><br>
+<br>
+`backend_auth_authentication_success_total`<br>
+<span style="font-size:0.6em;">(with `backend` as namespace and `auth` as subsystem)</span>
+
++++
+
+##### Use base units (seconds, not milliseconds)
+<br>
+<br>
+Add a suffix describing the unit
+`backend_http_response_time_seconds`<br>
+`backend_http_requests_total`<br>
+`process_cpu_seconds_total`<br>
+
+<span style="font-size:0.6em;">https://prometheus.io/docs/practices/naming/</span>
+
++++
+
+### Labels
+
+Differentiate the characteristics of the thing that is being measured<br>
+<br>
+`backend_auth_users_activated_total{platform="Android"}`<br>
+`backend_http_requests_total{method="GET", path="/users", app="user-service"}`<br>
+> backend_http_requests_total *fans out* by method, path and app
+<br>
+<span style="color: maroon">Remember that every unique combination of key-value label pairs represents a new time series</span>
+
++++
+
+### Auto labels
+Some labels are added automatically like `instance`, `kubernetes_namespace`, `job` etc.
+
+---
+
+## PromQL
+
++++
+
+#### Instant vector
+A single sample value at a given timestamp (instant)<br>
+<br>
+`backend_http_requests_total`<br>
+`backend_http_requests_total{app="auth-service"}`
+
++++
+
+|Element | Value |
+|--------|-------|
+|backend_http_requests_total{app="auth-service", instance="10.0.0.1"} | 100 |
+|backend_http_requests_total{app="auth-service", instance="10.0.0.2"} | 200 |
+
++++
+
+#### Range vector
+Samples in a given timerange<br>
+<br>
+`backend_http_requests_total{app="auth-service"}[1m]`
+
++++
+|Element | Value |
+|--------|-------|
+|backend_http_requests_total{app="auth-service", instance="10.0.0.1"} | 10 @ 1527286717.149<br>12 @ 1527286733.149<br>13 @ 1527286749.149<br>20 @ 1527286765.149 |
+|backend_http_requests_total{app="auth-service", instance="10.0.0.2"} | 2 @1527286711.47<br>5 @1527286727.47<br>9 @1527286743.47<br> |
++++
+##### range()
+`rate(v range-vector)`: Per second increase of the given range vector (*of a counter!*)<br>
+<br>
+e.g. `rate(backend_http_requests_total{app="storage-service"}[5m])`
++++
+##### sum()
+`sum(v instance-vector)`: calculate sum over dimensions/labels<br>
+
++++
+##### sum() by()
+`sum(backend_http_requests_total{app="my-service"}) by (instance)`:<br>
+|Element | Value |
+|--------|-------|
+|{instance="10.0.0.1"} | 123 |
+|{instance="10.0.0.2"} | 134 |
+
++++
+
+##### sum() without()
+`sum(v instance-vector)`: calculate sum over dimensions/labels<br>
+<br>
+`sum(backend_http_requests_total{app="my-service"}) without (instance)`:<br>
+|Element | Value |
+|--------|-------|
+|{app="my-service",method="GET",path="/places"} | 123 |
+|{app="my-service",method="POST",path="/places"} | 29 |
+|{app="my-service",method="GET",path="/customers"} | 4673 |
+|{app="my-service",method="GET",path="/categories"} | 7373 |
+
+---
+
 ## What shall I measure?
 
 +++
@@ -133,85 +239,22 @@ The *ratio* of requests that fail (500s)
 ### Saturation
 How "full" your service is.
 
----
++++
 
-## Timeseries
+### Latency
+We use a histrogram with the labels: `app`, `method`, `path`
 
 +++
 
-### Metric Naming 
-
-`<namespace>_<subsystem>_my_metric_name_<unit>`<br>
-<br>
-`backend_http_requests_total`<br>
-<span style="font-size:0.6em;">(with `backend` as namespace)</span><br>
-<br>
-`backend_auth_authentication_success_total`<br>
-<span style="font-size:0.6em;">(with `backend` as namespace and `auth` as subsystem)</span>
+### Traffic
+HTTP requests per second
 
 +++
 
-Use base units (seconds, not milliseconds)
-<br>
-<br>
-Add a suffix describing the unit
-`backend_http_response_time_seconds`<br>
-`backend_http_requests_total`<br>
-`process_cpu_seconds_total`<br>
-
-<span style="font-size:0.6em;">https://prometheus.io/docs/practices/naming/</span>
+### Error
+The *ratio* of requests that fail (500s)
 
 +++
 
-### Labels
-
-Differentiate the characteristics of the thing that is being measured<br>
-<br>
-`backend_http_requests_total{method="GET", path="/users", app="user-service"}`<br>
-`backend_auth_users_activated_total{platform="Android"}`<br>
-<br>
-<span style="color: red">Remember that every unique combination of key-value label pairs represents a new time series</span>
-
----
-
-## PromQL
-
-+++
-
-#### Instant vector
-A single sample value at a given timestamp (instant)<br>
-<br>
-`backend_http_requests_total`<br>
-`backend_http_requests_total{app="auth-service"}`
-
-+++
-
-|Element | Value |
-|--------|-------|
-|backend_http_requests_total{app="auth-service", instance="10.0.0.1"} | 100 |
-|backend_http_requests_total{app="auth-service", instance="10.0.0.2"} | 200 |
-
-+++
-
-#### Range vector
-Samples in a given timerange<br>
-<br>
-`backend_http_requests_total{app="auth-service"}[1m]`
-
-+++
-<span style="font-size:0.6em;">
-|Element | Value |
-|--------|-------|
-|backend_http_requests_total{app="auth-service", instance="10.0.0.1"} | 10 @ 1527286717.149<br>12 @ 1527286733.149<br>13 @ 1527286749.149<br>20 @ 1527286765.149 |
-|backend_http_requests_total{app="auth-service", instance="10.0.0.2"} | 2 @1527286711.47<br>5 @1527286727.47<br>9 @1527286743.47<br> |
-</span>
-+++
-
-rate()
-irate()
-
-+++
-
-sum() by () / fan out
-
-sum() without ()
+### Saturation
+How "full" your service is.
