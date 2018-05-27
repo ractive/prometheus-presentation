@@ -150,8 +150,8 @@ Summaries calculate streaming φ-quantiles on the client side
 
 +++
 ### Histogram details
-A histogram called `backend_http_response_time_seconds` with the buckets `0.01, 0.02, 0.04, 0.1, 0.2, 0.4, 1, 5` will be represented as:
 <span style="font-size:0.6em;">
+A histogram called `backend_http_response_time_seconds` with the buckets `0.01, 0.02, 0.04, 0.1, 0.2, 0.4, 1, 5` will be represented as:<br>
 `backend_http_response_time_seconds_bucket{..., le="0.01"}`<br>
 `backend_http_response_time_seconds_bucket{..., le="0.02"}`<br>
 ...<br>
