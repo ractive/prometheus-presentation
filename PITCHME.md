@@ -49,6 +49,11 @@ Pulling metrics via HTTP from /metrics<br>
 
 +++
 
+#### Events vs. state
+Prometheus collects the *state* and *not single events* (like the count of http requests and not the single requests).
+
++++
+
 #### Why Pull?
 
 @ul
@@ -60,11 +65,6 @@ Pulling metrics via HTTP from /metrics<br>
 - Immediately notice when a target is down
 
 @ulend
-
-+++
-
-#### Events vs. state
-Prometheus collects the *state* and *not single events* (like the count of http requests and not the single requests).
 
 ---
 
@@ -84,8 +84,8 @@ Prometheus collects the *state* and *not single events* (like the count of http 
 
 +++
 
-##### Use base units (seconds, not milliseconds)
-Add a suffix describing the unit<br>
+##### Unit suffix
+Use base units (seconds, not milliseconds)<br>
 <br>
 `backend_http_response_time_seconds`<br>
 `backend_http_requests_total`<br>
@@ -140,7 +140,9 @@ A single numerical value that can arbitrarily go up and down.
 
 ### Histogram
 
-Samples observations (usually things like request durations or response sizes) and counts them in configurable buckets
+Samples things like request durations or response sizes and counts them in configurable buckets<br>
+<br>
+You can see the distribution of the measured samples.
 
 +++
 
@@ -314,7 +316,7 @@ The *ratio* of requests that fail (500s)
 ```
 sum(rate(backend_http_requests_total{app="storage-service", status=~"^5[0-9][0-9]$"}[1m]))
 /
-sum(rate(backend_http_requests_total{app="storage-service"}[$interval]))
+sum(rate(backend_http_requests_total{app="storage-service"}[1m]))
 ```
 
 ---
