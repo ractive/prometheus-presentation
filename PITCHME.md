@@ -133,15 +133,17 @@ Add a suffix describing the unit
 Differentiate the characteristics of the thing that is being measured<br>
 <br>
 `backend_auth_users_activated_total{platform="Android"}`<br>
-`backend_http_requests_total{method="GET", path="/users", app="user-service"}`<br>
+`backend_http_requests_total{method="GET", path="/users", app="user-service"}`
+
 > backend_http_requests_total *fans out* by method, path and app
-<br>
+
 <span style="color: maroon">Remember that every unique combination of key-value label pairs represents a new time series</span>
 
 +++
 
 ### Auto labels
-Some labels are added automatically like `instance`, `kubernetes_namespace`, `job` etc.
+Some labels are added automatically like<br>
+`app`, `instance`, `kubernetes_namespace`, `job` etc.
 
 ---
 
@@ -152,8 +154,10 @@ Some labels are added automatically like `instance`, `kubernetes_namespace`, `jo
 #### Instant vector
 A single sample value at a given timestamp (instant)<br>
 <br>
+<span style="font-size: 0.7em">
 `backend_http_requests_total`<br>
 `backend_http_requests_total{app="auth-service"}`
+</span>
 
 +++
 
@@ -167,13 +171,17 @@ A single sample value at a given timestamp (instant)<br>
 #### Range vector
 Samples in a given timerange<br>
 <br>
+<span style="font-size: 0.7em">
 `backend_http_requests_total{app="auth-service"}[1m]`
+</span>
 
 +++
+
 |Element | Value |
 |--------|-------|
 |backend_http_requests_total{app="auth-service", instance="10.0.0.1"} | 10 @ 1527286717.149<br>12 @ 1527286733.149<br>13 @ 1527286749.149<br>20 @ 1527286765.149 |
 |backend_http_requests_total{app="auth-service", instance="10.0.0.2"} | 2 @1527286711.47<br>5 @1527286727.47<br>9 @1527286743.47<br> |
+
 +++
 ##### range()
 `rate(v range-vector)`: Per second increase of the given range vector (*of a counter!*)<br>
@@ -185,7 +193,9 @@ e.g. `rate(backend_http_requests_total{app="storage-service"}[5m])`
 
 +++
 ##### sum() by()
-`sum(backend_http_requests_total{app="my-service"}) by (instance)`:<br>
+
+`sum(backend_http_requests_total{app="my-service"}) by (instance)`:
+
 |Element | Value |
 |--------|-------|
 |{instance="10.0.0.1"} | 123 |
@@ -194,9 +204,11 @@ e.g. `rate(backend_http_requests_total{app="storage-service"}[5m])`
 +++
 
 ##### sum() without()
+
 `sum(v instance-vector)`: calculate sum over dimensions/labels<br>
 <br>
-`sum(backend_http_requests_total{app="my-service"}) without (instance)`:<br>
+`sum(backend_http_requests_total{app="my-service"}) without (instance)`:
+
 |Element | Value |
 |--------|-------|
 |{app="my-service",method="GET",path="/places"} | 123 |
@@ -242,19 +254,36 @@ How "full" your service is.
 +++
 
 ### Latency
-We use a histrogram with the labels: `app`, `method`, `path`
+We use a histrogram with the labels:<br>
+`method`, `path`:<br>
+<br>
+`backend_http_response_time_seconds`
+
+```
+sum(rate( backend_http_response_time_seconds_sum{app="storage-service"}[$interval]))
+/
+sum(rate( backend_http_response_time_seconds_count{app="storage-service"}[$interval]))
+```
 
 +++
 
 ### Traffic
-HTTP requests per second
+We use a histrogram with the labels:<br>
+`method`, `path`, `status`:<br>
+<br>
+`backend_http_requests_total`
+
+```
+sum(rate(backend_http_requests_total{app="storage-service"}[$interval]))
+```
 
 +++
 
 ### Error
 The *ratio* of requests that fail (500s)
 
-+++
-
-### Saturation
-How "full" your service is.
+```
+sum(rate(backend_http_requests_total{{app="storage-service", status=~"^5[0-9][0-9]$"} [$interval]))
+/
+sum(rate(backend_http_requests_total{app="storage-service"}[$interval]))
+```
