@@ -295,5 +295,16 @@ sum(rate(backend_http_requests_total{app="storage-service"}[$interval]))
 ## Grafana
 
 +++
+
 ### Grafana Settings
-![Grafana settings](https://files.slack.com/files-pri/T02STLL2E-FACS1C5QB/image.png)
+![Grafana settings](assets/images/grafana.png)
+
++++
+
+### Interval label
+![Interval label](assets/images/interval.png)
+
++++
+
+### Label values
+![Label values](assets/images/label_values.png)
