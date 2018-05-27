@@ -130,7 +130,6 @@ Add a suffix describing the unit<br>
 ### Labels
 
 Differentiate the characteristics of the thing that is being measured<br>
-<br>
 <span style="font-size: 0.6em">
 `backend_auth_users_activated_total{platform="Android"}`<br>
 `backend_http_requests_total{method="GET", path="/users", app="user-service"}`
