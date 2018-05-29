@@ -110,8 +110,10 @@ Labels makes the timeseries multidimensional<br>
 +++
 
 ### Auto labels
-Some labels are added automatically like<br>
-`app`, `instance`, `kubernetes_namespace`, `job` etc.
+Some labels are added automatically by prometheus like<br>
+`instance`, `kubernetes_namespace`, `job` etc.<br>
+<br>
+All labels from the k8s service the pod belongs to are added as well.
 
 ---
 
